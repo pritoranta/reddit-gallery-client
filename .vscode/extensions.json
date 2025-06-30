@@ -1,3 +1,10 @@
 {
-  "recommendations": ["svelte.svelte-vscode"]
+    "recommendations": [
+        // formatter
+        "esbenp.prettier-vscode",
+        // Svelte support
+        "svelte.svelte-vscode",
+        // IDE file explorer style
+        "vscode-icons-team.vscode-icons"
+    ]
 }
