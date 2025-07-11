@@ -2,6 +2,8 @@
     "recommendations": [
         // formatter
         "esbenp.prettier-vscode",
+        // auto rename both HTML tags
+        "formulahendry.auto-rename-tag",
         // Svelte support
         "svelte.svelte-vscode",
         // IDE file explorer style
