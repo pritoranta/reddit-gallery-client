@@ -1,18 +1,30 @@
 <script lang="ts">
     import querySubreddits from '../api/querySubreddits'
-    import { subredditSearchState } from '../data/subredditSearchState.svelte'
+    import type subreddit from '../models/subreddit'
+
+    const state = $state<{
+        searchPhrase: string
+        isLoading: boolean
+        selectedSubreddit: subreddit | null
+        results: subreddit[]
+    }>({
+        searchPhrase: '',
+        isLoading: false,
+        selectedSubreddit: null,
+        results: [],
+    })
 
     $effect(() => {
-        subredditSearchState.isLoading = true
-        querySubreddits(subredditSearchState.searchPhrase) // this state read triggers the effect rune
+        state.isLoading = true
+        querySubreddits(state.searchPhrase) // this state read triggers the effect rune
             .then((subreddits) => {
-                subredditSearchState.results = subreddits ?? []
+                state.results = subreddits ?? []
             })
             .catch(() => {
-                subredditSearchState.results = []
+                state.results = []
             })
             .finally(() => {
-                subredditSearchState.isLoading = false
+                state.isLoading = false
             })
     })
 </script>
@@ -22,23 +34,23 @@
         id="search_input"
         type="text"
         placeholder="Search for subreddits..."
-        bind:value={subredditSearchState.searchPhrase}
+        bind:value={state.searchPhrase}
         onfocusin={() =>
             document.getElementById('search_results')?.showPopover()}
         onfocusout={() =>
             document.getElementById('search_results')?.hidePopover()}
     />
     <ul id="search_results" popover="manual">
-        {#if !subredditSearchState.results.length}
-            {#if !subredditSearchState.searchPhrase}
+        {#if !state.results.length}
+            {#if !state.searchPhrase}
                 <li>Try searching for subreddits</li>
-            {:else if subredditSearchState.isLoading}
+            {:else if state.isLoading}
                 <li>Loading...</li>
             {:else}
                 <li>No subreddits found</li>
             {/if}
         {:else}
-            {#each subredditSearchState.results as subreddit}
+            {#each state.results as subreddit}
                 <li>
                     <button onmousedown={() => console.log(subreddit.id)}>
                         {subreddit.id}
