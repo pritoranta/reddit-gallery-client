@@ -6,6 +6,12 @@
     let isLoading = $state(false)
     let selectedSubreddit: subreddit | null = $state(null)
     let results: subreddit[] = $state([])
+    let shouldResultsShow = $state(false)
+
+    const selectSubreddit = (sub: subreddit) => {
+        selectedSubreddit = sub
+        searchPhrase = ''
+    }
 
     $effect(() => {
         isLoading = true
@@ -28,55 +34,54 @@
         type="text"
         placeholder="Search for subreddits..."
         bind:value={searchPhrase}
-        onfocusin={() =>
-            document.getElementById('search_results')?.showPopover()}
-        onfocusout={() =>
-            document.getElementById('search_results')?.hidePopover()}
+        onfocusin={() => (shouldResultsShow = true)}
+        onfocusout={() => (shouldResultsShow = false)}
     />
-    <ul id="search_results" popover="manual">
-        {#if !results.length}
-            {#if !searchPhrase}
-                <li>Try searching for subreddits</li>
-            {:else if isLoading}
-                <li>Loading...</li>
+    {#if shouldResultsShow}
+        <ul id="search_results">
+            {#if !results.length}
+                {#if isLoading}
+                    <li>Loading...</li>
+                {:else if !searchPhrase}
+                    <li>Try searching for subreddits</li>
+                {:else}
+                    <li>No subreddits found</li>
+                {/if}
             {:else}
-                <li>No subreddits found</li>
+                {#each results as subreddit}
+                    <li>
+                        <button onmousedown={() => selectSubreddit(subreddit)}>
+                            {subreddit.id}
+                        </button>
+                    </li>
+                {/each}
             {/if}
-        {:else}
-            {#each results as subreddit}
-                <li>
-                    <button onmousedown={() => console.log(subreddit.id)}>
-                        {subreddit.id}
-                    </button>
-                </li>
-            {/each}
-        {/if}
-    </ul>
+        </ul>
+    {/if}
 </search>
 
 <style>
     search {
         margin: 10px;
-        max-width: 30rem;
-        width: 40%;
+        max-width: 25rem;
+        width: 100%;
     }
     #search_input {
         padding: 5px;
         width: 100%;
     }
-    #search_results:popover-open {
+    #search_results {
         border: 0;
-        /* only set display: block when popover-open, because popovers use display: none to control visibility */
         display: block;
         /* removes space between li elements */
         font-size: 0;
-        /* popover tag adds many annoying stylings we're removing */
-        inset: auto;
         max-height: 20rem;
-        max-width: 30rem;
+        max-width: calc(25rem + 14px);
         overflow-y: scroll;
-        position: absolute;
-        width: 40%;
+        padding-left: 0;
+        position: fixed;
+        width: 100%;
+        z-index: 1;
     }
     li button {
         border: 0;
