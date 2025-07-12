@@ -1,11 +1,11 @@
 <script lang="ts">
     import { selectedSubreddit } from '../data/selectedSubreddit.svelte'
-    import Search from './Search.svelte'
+    import SearchInput from './SearchInput.svelte'
 </script>
 
 <nav>
     <h1>{`r/${selectedSubreddit.id}`}</h1>
-    <Search />
+    <SearchInput />
     <div></div>
 </nav>
 

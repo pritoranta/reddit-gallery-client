@@ -1,7 +1,7 @@
 <script lang="ts">
     import queryMediaFromSubreddit from './api/queryMediaFromSubreddit'
     import MediaGrid from './components/MediaGrid.svelte'
-    import SearchBar from './components/SearchBar.svelte'
+    import NavBar from './components/NavBar.svelte'
     import { selectedSubreddit } from './data/selectedSubreddit.svelte'
     import type media from './models/media'
 
@@ -18,7 +18,7 @@
 </script>
 
 <main>
-    <SearchBar />
+    <NavBar />
     <MediaGrid {images} />
 </main>
 
