@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Search from './components/Search.svelte'
+    import SearchBar from './components/SearchBar.svelte'
 </script>
 
 <main>
-    <Search />
+    <SearchBar />
 </main>
 
 <style>

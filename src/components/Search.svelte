@@ -1,15 +1,17 @@
 <script lang="ts">
     import querySubreddits from '../api/querySubreddits'
+    import { selectedSubreddit } from '../data/selectedSubreddit.svelte'
     import type subreddit from '../models/subreddit'
 
     let searchPhrase = $state('')
     let isLoading = $state(false)
-    let selectedSubreddit: subreddit | null = $state(null)
     let results: subreddit[] = $state([])
     let shouldResultsShow = $state(false)
 
     const selectSubreddit = (sub: subreddit) => {
-        selectedSubreddit = sub
+        selectedSubreddit.id = sub.id
+        selectedSubreddit.over18 = sub.over18
+        selectedSubreddit.description = sub.description
         searchPhrase = ''
     }
 
@@ -64,7 +66,7 @@
     search {
         margin: 10px;
         max-width: 25rem;
-        width: 100%;
+        width: 50%;
     }
     #search_input {
         padding: 5px;
