@@ -22,7 +22,6 @@ export default async function querySubreddits(
                 over18: sr.data.over18,
             }))
     } catch (e) {
-        console.error(e)
         return null
     }
 }

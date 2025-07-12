@@ -4,10 +4,10 @@ export const subredditSearchState = $state<{
     searchPhrase: string
     isLoading: boolean
     selectedSubreddit: subreddit | null
-    searchResults: subreddit[]
+    results: subreddit[]
 }>({
     searchPhrase: '',
     isLoading: false,
     selectedSubreddit: null,
-    searchResults: [],
+    results: [],
 })

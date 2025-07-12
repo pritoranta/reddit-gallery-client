@@ -1,12 +1,17 @@
 <script lang="ts">
     import Search from './components/Search.svelte'
-    import { subredditSearchState } from './data/subredditSearchState.svelte'
 </script>
 
 <main>
     <Search />
-    <div>{subredditSearchState.searchResults?.map((sr) => sr.id)}</div>
 </main>
 
 <style>
+    main {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100vw;
+    }
 </style>
