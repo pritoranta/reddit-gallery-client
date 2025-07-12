@@ -2,29 +2,22 @@
     import querySubreddits from '../api/querySubreddits'
     import type subreddit from '../models/subreddit'
 
-    const state = $state<{
-        searchPhrase: string
-        isLoading: boolean
-        selectedSubreddit: subreddit | null
-        results: subreddit[]
-    }>({
-        searchPhrase: '',
-        isLoading: false,
-        selectedSubreddit: null,
-        results: [],
-    })
+    let searchPhrase = $state('')
+    let isLoading = $state(false)
+    let selectedSubreddit: subreddit | null = $state(null)
+    let results: subreddit[] = $state([])
 
     $effect(() => {
-        state.isLoading = true
-        querySubreddits(state.searchPhrase) // this state read triggers the effect rune
+        isLoading = true
+        querySubreddits(searchPhrase) // this state read triggers the effect rune
             .then((subreddits) => {
-                state.results = subreddits ?? []
+                results = subreddits ?? []
             })
             .catch(() => {
-                state.results = []
+                results = []
             })
             .finally(() => {
-                state.isLoading = false
+                isLoading = false
             })
     })
 </script>
@@ -34,23 +27,23 @@
         id="search_input"
         type="text"
         placeholder="Search for subreddits..."
-        bind:value={state.searchPhrase}
+        bind:value={searchPhrase}
         onfocusin={() =>
             document.getElementById('search_results')?.showPopover()}
         onfocusout={() =>
             document.getElementById('search_results')?.hidePopover()}
     />
     <ul id="search_results" popover="manual">
-        {#if !state.results.length}
-            {#if !state.searchPhrase}
+        {#if !results.length}
+            {#if !searchPhrase}
                 <li>Try searching for subreddits</li>
-            {:else if state.isLoading}
+            {:else if isLoading}
                 <li>Loading...</li>
             {:else}
                 <li>No subreddits found</li>
             {/if}
         {:else}
-            {#each state.results as subreddit}
+            {#each results as subreddit}
                 <li>
                     <button onmousedown={() => console.log(subreddit.id)}>
                         {subreddit.id}
@@ -82,7 +75,7 @@
         max-height: 20rem;
         max-width: 30rem;
         overflow-y: scroll;
-        position: anchor;
+        position: absolute;
         width: 40%;
     }
     li button {
