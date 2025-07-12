@@ -19,12 +19,12 @@ export default interface mediaQueryResult {
                     }
                 }
                 secure_media?: {
-                    reddit_video?: {
-                        bitrate_kbps: number
-                        duration: number
-                        fallback_url: string
+                    type?: string
+                    oembed?: {
                         height: number
                         width: number
+                        thumbnail_url?: string
+                        type: string
                     }
                 }
                 secure_media_embed?: {
@@ -35,6 +35,7 @@ export default interface mediaQueryResult {
                 post_hint: string
                 permalink: string
                 url: string
+                thumbnail?: string
             }
         }[]
     }

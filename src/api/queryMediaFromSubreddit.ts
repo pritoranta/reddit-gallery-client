@@ -22,13 +22,14 @@ export default async function queryMediaFromSubreddit(
                             post.preview?.reddit_video_preview),
                 ) ?? []
         return postsWithMedia.flatMap((post) =>
-            post.secure_media?.reddit_video
+            post.secure_media?.oembed?.type === 'video'
                 ? {
                       type: 'video',
                       linkToPost: post.permalink,
-                      url: post.secure_media!.reddit_video!.fallback_url,
-                      height: post.secure_media!.reddit_video!.height,
-                      width: post.secure_media!.reddit_video!.width,
+                      url: post.secure_media_embed?.media_domain_url ?? '',
+                      height: post.secure_media_embed?.height ?? 0,
+                      width: post.secure_media_embed?.width ?? 0,
+                      thumbnail_url: post.thumbnail,
                   }
                 : post.preview?.reddit_video_preview
                 ? {
