@@ -1,9 +1,25 @@
 <script lang="ts">
+    import queryMediaFromSubreddit from './api/queryMediaFromSubreddit'
+    import MediaGrid from './components/MediaGrid.svelte'
     import SearchBar from './components/SearchBar.svelte'
+    import { selectedSubreddit } from './data/selectedSubreddit.svelte'
+    import type media from './models/media'
+
+    let images: media[] = $state([])
+    $effect(() => {
+        queryMediaFromSubreddit(selectedSubreddit.id) // this state read triggers effect
+            .then((results) => {
+                images = results ?? []
+            })
+            .catch(() => {
+                images = []
+            })
+    })
 </script>
 
 <main>
     <SearchBar />
+    <MediaGrid {images} />
 </main>
 
 <style>
@@ -11,7 +27,6 @@
         align-items: center;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        width: 100vw;
+        width: 100%;
     }
 </style>

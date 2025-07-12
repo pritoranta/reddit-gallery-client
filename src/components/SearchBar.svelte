@@ -6,21 +6,27 @@
 <nav>
     <h1>{`r/${selectedSubreddit.id}`}</h1>
     <Search />
+    <div></div>
 </nav>
 
 <style>
     h1 {
         font-size: 1.5rem;
-        padding-left: 10px;
         width: 25%;
         word-break: keep-all;
         word-wrap: break-all;
     }
+    div {
+        width: 25%;
+    }
     nav {
         align-items: center;
+        box-sizing: border-box;
         justify-content: space-between;
         display: flex;
         flex-wrap: nowrap;
+        padding-left: 20px;
+        padding-right: 20px;
         width: 100%;
     }
 </style>

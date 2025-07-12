@@ -1,6 +1,6 @@
 import type subreddit from '../models/subreddit'
 
 export const selectedSubreddit: subreddit = $state({
-    id: 'popular',
+    id: 'MostBeautiful',
     over18: false,
 })
