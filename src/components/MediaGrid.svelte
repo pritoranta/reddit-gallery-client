@@ -23,6 +23,7 @@
         grid-template-columns: repeat(4, 1fr);
         padding: 0;
         margin: 0;
+        width: 100%;
     }
     #media_grid li {
         aspect-ratio: 1;
