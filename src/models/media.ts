@@ -1,5 +1,5 @@
 export default interface media {
-    type: string
+    isVideo?: boolean
     linkToPost: string
     thumbnail_url?: string
     url: string

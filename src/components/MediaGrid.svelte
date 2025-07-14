@@ -7,7 +7,7 @@
 <ul id="media_grid">
     {#each images as i}
         <li>
-            {#if i.type === 'video'}
+            {#if i.isVideo}
                 <img src={i.thumbnail_url} loading="lazy" />
             {:else}
                 <img src={i.url} loading="lazy" />

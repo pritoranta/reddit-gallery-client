@@ -24,7 +24,7 @@ export default async function queryMediaFromSubreddit(
         return postsWithMedia.flatMap((post) =>
             post.secure_media?.oembed?.type === 'video'
                 ? {
-                      type: 'video',
+                      isVideo: true,
                       linkToPost: post.permalink,
                       url: post.secure_media_embed?.media_domain_url ?? '',
                       height: post.secure_media_embed?.height ?? 0,
@@ -33,14 +33,12 @@ export default async function queryMediaFromSubreddit(
                   }
                 : post.preview?.reddit_video_preview
                 ? {
-                      type: 'gif',
                       linkToPost: post.permalink,
                       url: post.preview!.reddit_video_preview!.fallback_url,
                       height: post.preview!.reddit_video_preview!.height,
                       width: post.preview!.reddit_video_preview!.width,
                   }
                 : post.preview!.images.map((image) => ({
-                      type: 'image',
                       linkToPost: post.permalink,
                       url: post.url,
                       height: image.source.height,
