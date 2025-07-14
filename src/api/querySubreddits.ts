@@ -3,7 +3,7 @@ import type subredditQueryResult from './subredditQueryResult'
 
 export default async function querySubreddits(
     searchPhrase: string,
-    includeOver18 = true,
+    includeOver18 = false,
 ): Promise<subreddit[] | null> {
     try {
         const paddedSearchPhrase = searchPhrase.padStart(3, ' ') // Reddit wants this to be at least 3 characters long
