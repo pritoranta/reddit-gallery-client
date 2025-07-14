@@ -7,7 +7,7 @@
 <ul id="media_grid">
     {#each images as i}
         <li>
-            {#if i.isVideo}
+            {#if i.is_video}
                 <a
                     class="overlay"
                     href={i.url}

@@ -35,7 +35,11 @@ export default interface mediaQueryResult {
                 post_hint: string
                 permalink: string
                 url: string
+                subreddit: string
+                title: string
                 thumbnail?: string
+                is_original_content: boolean
+                over_18: boolean
             }
         }[]
     }

@@ -24,25 +24,34 @@ export default async function queryMediaFromSubreddit(
         return postsWithMedia.flatMap((post) =>
             post.secure_media?.oembed?.type === 'video'
                 ? {
-                      isVideo: true,
-                      linkToPost: post.permalink,
+                      is_video: true,
+                      post_permalink: post.permalink,
+                      post_subreddit_id: post.subreddit,
+                      post_title: post.title,
                       url: post.secure_media_embed?.media_domain_url ?? '',
                       height: post.secure_media_embed?.height ?? 0,
                       width: post.secure_media_embed?.width ?? 0,
                       thumbnail_url: post.thumbnail,
+                      is_original_content: post.is_original_content,
                   }
                 : post.preview?.reddit_video_preview
                 ? {
-                      linkToPost: post.permalink,
+                      post_permalink: post.permalink,
+                      post_subreddit_id: post.subreddit,
+                      post_title: post.title,
                       url: post.preview!.reddit_video_preview!.fallback_url,
                       height: post.preview!.reddit_video_preview!.height,
                       width: post.preview!.reddit_video_preview!.width,
+                      is_original_content: post.is_original_content,
                   }
                 : post.preview!.images.map((image) => ({
-                      linkToPost: post.permalink,
+                      post_permalink: post.permalink,
+                      post_subreddit_id: post.subreddit,
+                      post_title: post.title,
                       url: post.url,
                       height: image.source.height,
                       width: image.source.width,
+                      is_original_content: post.is_original_content,
                   })),
         )
     } catch {
