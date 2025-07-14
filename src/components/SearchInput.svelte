@@ -79,9 +79,9 @@
         font-size: 0;
         max-height: 20rem;
         max-width: calc(25rem + 14px);
-        overflow-y: scroll;
+        overflow-y: auto;
         padding-left: 0;
-        position: fixed;
+        position: absolute;
         width: 100%;
         z-index: 1;
     }
