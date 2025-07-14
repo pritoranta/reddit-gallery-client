@@ -15,7 +15,7 @@
     }
 
     $effect(() => {
-        queryMediaFromSubreddit(subredditId) // this state read triggers effect
+        queryMediaFromSubreddit(subredditId)
             .then((results) => {
                 images = results ?? []
             })
