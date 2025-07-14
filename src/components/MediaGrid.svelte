@@ -2,26 +2,43 @@
     import type media from '../models/media'
 
     const { images }: { images: media[] } = $props()
+    let selectedImage: media | null = $state(null)
 </script>
 
 <ul id="media_grid">
     {#each images as i}
         <li>
-            {#if i.is_video}
-                <a
-                    class="overlay"
-                    href={i.url}
-                    aria-label={i.url}
-                    target="_blank"
-                >
+            <button
+                onclick={() => (selectedImage = i)}
+                popovertarget="dialogue"
+            >
+                {#if i.is_video}
                     <img src={i.thumbnail_url} loading="lazy" />
-                    <img class="play_button" src="play.png" />
-                </a>
-            {:else}
-                <img src={i.url} loading="lazy" />
-            {/if}
+                {:else}
+                    <img src={i.url} loading="lazy" />
+                {/if}
+            </button>
         </li>
     {/each}
+    <button
+        id="dialogue"
+        popover
+        popovertarget="dialogue"
+        onclick={() => (selectedImage = null)}
+    >
+        {#if selectedImage?.is_video}
+            <iframe
+                src={selectedImage.url}
+                height={selectedImage.height}
+                width={selectedImage.width}
+                loading="eager"
+                sandbox="allow-scripts allow-same-origin"
+            ></iframe>
+        {:else}
+            <img src={selectedImage?.url} />
+        {/if}
+        <h2>{selectedImage?.post_title}</h2>
+    </button>
 </ul>
 
 <style>
@@ -33,32 +50,34 @@
         margin: 0;
         width: 100%;
     }
-    #media_grid li {
+    li {
         aspect-ratio: 1;
         display: block;
         grid-column-end: span 1;
         grid-row-end: span 1;
     }
-    #media_grid li img {
+    li button {
+        cursor: pointer;
+        display: contents;
+    }
+    li button img {
         box-sizing: border-box;
         display: block;
         height: 100%;
         object-fit: cover;
         width: 100%;
     }
-    .overlay {
-        cursor: pointer;
-        opacity: 0.5;
-        position: relative;
-    }
-    .overlay:hover {
-        opacity: 1;
-    }
-    .play_button {
-        overflow: visible;
-        padding: 30%;
-        position: absolute;
-        top: 0;
-        left: 0;
+    #dialogue:popover-open {
+        align-items: center;
+        backdrop-filter: blur(1rem);
+        background-color: transparent;
+        border: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        width: 100%;
     }
 </style>
