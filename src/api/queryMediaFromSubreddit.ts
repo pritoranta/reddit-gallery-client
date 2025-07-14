@@ -33,6 +33,7 @@ export default async function queryMediaFromSubreddit(
                       width: post.secure_media_embed?.width ?? 0,
                       thumbnail_url: post.thumbnail,
                       is_original_content: post.is_original_content,
+                      is_over_18: post.over_18,
                   }
                 : post.preview?.reddit_video_preview
                 ? {
@@ -43,6 +44,7 @@ export default async function queryMediaFromSubreddit(
                       height: post.preview!.reddit_video_preview!.height,
                       width: post.preview!.reddit_video_preview!.width,
                       is_original_content: post.is_original_content,
+                      is_over_18: post.over_18,
                   }
                 : post.preview!.images.map((image) => ({
                       post_permalink: post.permalink,
@@ -52,6 +54,7 @@ export default async function queryMediaFromSubreddit(
                       height: image.source.height,
                       width: image.source.width,
                       is_original_content: post.is_original_content,
+                      is_over_18: post.over_18,
                   })),
         )
     } catch {
