@@ -11,7 +11,7 @@
 
 <style>
     h1 {
-        font-size: 1.5rem;
+        font-size: min(3vw, 1.5rem);
         width: 25%;
         word-break: keep-all;
         word-wrap: break-all;
@@ -25,8 +25,8 @@
         justify-content: space-between;
         display: flex;
         flex-wrap: nowrap;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 2vw;
+        padding-right: 2vw;
         width: 100%;
     }
 </style>
