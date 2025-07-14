@@ -8,9 +8,9 @@
     {#each images as i}
         <li>
             {#if i.type === 'video'}
-                <img alt="" src={i.thumbnail_url} loading="lazy" />
+                <img src={i.thumbnail_url} loading="lazy" />
             {:else}
-                <img alt="" src={i.url} loading="lazy" />
+                <img src={i.url} loading="lazy" />
             {/if}
         </li>
     {/each}
