@@ -28,7 +28,7 @@
     #media_grid {
         display: grid;
         gap: 4px;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         padding: 0;
         margin: 0;
         width: 100%;
