@@ -8,7 +8,15 @@
     {#each images as i}
         <li>
             {#if i.isVideo}
-                <img src={i.thumbnail_url} loading="lazy" />
+                <a
+                    class="overlay"
+                    href={i.url}
+                    aria-label={i.url}
+                    target="_blank"
+                >
+                    <img src={i.thumbnail_url} loading="lazy" />
+                    <img class="play_button" src="play.png" />
+                </a>
             {:else}
                 <img src={i.url} loading="lazy" />
             {/if}
@@ -37,5 +45,20 @@
         height: 100%;
         object-fit: cover;
         width: 100%;
+    }
+    .overlay {
+        cursor: pointer;
+        opacity: 0.5;
+        position: relative;
+    }
+    .overlay:hover {
+        opacity: 1;
+    }
+    .play_button {
+        overflow: visible;
+        padding: 30%;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 </style>
