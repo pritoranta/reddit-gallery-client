@@ -1,19 +1,11 @@
 <script lang="ts">
     import querySubreddits from '../api/querySubreddits'
-    import { selectedSubreddit } from '../data/selectedSubreddit.svelte'
+    import { shouldSearchResultsShow } from '../data/shouldSearchResultsShow.svelte'
     import type subreddit from '../models/subreddit'
 
     let searchPhrase = $state('')
     let isLoading = $state(false)
     let results: subreddit[] = $state([])
-    let shouldResultsShow = $state(false)
-
-    const selectSubreddit = (sub: subreddit) => {
-        selectedSubreddit.id = sub.id
-        selectedSubreddit.over18 = sub.over18
-        selectedSubreddit.description = sub.description
-        searchPhrase = ''
-    }
 
     $effect(() => {
         isLoading = true
@@ -36,28 +28,18 @@
         type="text"
         placeholder="Search for subreddits..."
         bind:value={searchPhrase}
-        onfocusin={() => (shouldResultsShow = true)}
-        onfocusout={() => (shouldResultsShow = false)}
+        onfocusin={() => (shouldSearchResultsShow.current = true)}
+        autocomplete="off"
     />
-    {#if shouldResultsShow}
+    {#if shouldSearchResultsShow.current}
         <ul id="search_results">
-            {#if !results.length}
-                {#if isLoading}
-                    <li>Loading...</li>
-                {:else if !searchPhrase}
-                    <li>Try searching for subreddits</li>
-                {:else}
-                    <li>No subreddits found</li>
-                {/if}
-            {:else}
-                {#each results as subreddit}
-                    <li>
-                        <button onmousedown={() => selectSubreddit(subreddit)}>
-                            {subreddit.id}
-                        </button>
-                    </li>
-                {/each}
-            {/if}
+            {#each results as subreddit}
+                <li>
+                    <a href={'?sub=' + subreddit.id}>
+                        {subreddit.id}
+                    </a>
+                </li>
+            {/each}
         </ul>
     {/if}
 </search>
@@ -73,10 +55,10 @@
         width: 100%;
     }
     #search_results {
+        background-color: var(--background-color);
         border: 0;
         display: block;
-        /* removes space between li elements */
-        font-size: 0;
+        margin: 0;
         max-height: 20rem;
         max-width: calc(25rem + 14px);
         overflow-y: auto;
@@ -85,8 +67,9 @@
         width: 100%;
         z-index: 1;
     }
-    li button {
+    li a {
         border: 0;
+        color: var(--color);
         padding: 5px;
         text-align: start;
         width: 100%;

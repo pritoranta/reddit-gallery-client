@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { selectedSubreddit } from '../data/selectedSubreddit.svelte'
     import SearchInput from './SearchInput.svelte'
+
+    const { subredditId }: { subredditId: string } = $props()
 </script>
 
 <nav>
-    <h1>{`r/${selectedSubreddit.id}`}</h1>
+    <h1>{`r/${subredditId}`}</h1>
     <SearchInput />
     <div></div>
 </nav>

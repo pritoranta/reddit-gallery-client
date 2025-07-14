@@ -2,12 +2,20 @@
     import queryMediaFromSubreddit from './api/queryMediaFromSubreddit'
     import MediaGrid from './components/MediaGrid.svelte'
     import NavBar from './components/NavBar.svelte'
-    import { selectedSubreddit } from './data/selectedSubreddit.svelte'
+    import { shouldSearchResultsShow } from './data/shouldSearchResultsShow.svelte'
     import type media from './models/media'
 
+    const searchParams: URLSearchParams = new URLSearchParams(
+        window.location.search,
+    )
+    const subredditId = searchParams?.get('sub') || 'MostBeautiful'
     let images: media[] = $state([])
+    const closeSearchResults = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') shouldSearchResultsShow.current = false
+    }
+
     $effect(() => {
-        queryMediaFromSubreddit(selectedSubreddit.id) // this state read triggers effect
+        queryMediaFromSubreddit(subredditId) // this state read triggers effect
             .then((results) => {
                 images = results ?? []
             })
@@ -18,9 +26,11 @@
 </script>
 
 <main>
-    <NavBar />
+    <NavBar {subredditId} />
     <MediaGrid {images} />
 </main>
+
+<svelte:window on:keydown={closeSearchResults} />
 
 <style>
     main {
