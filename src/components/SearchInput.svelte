@@ -1,6 +1,6 @@
 <script lang="ts">
     import querySubreddits from '../api/querySubreddits'
-    import { appState } from '../data/appState'
+    import { appState } from '../data/appState.svelte'
     import type subreddit from '../models/subreddit'
 
     let searchPhrase = $state('')

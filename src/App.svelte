@@ -2,7 +2,7 @@
     import queryMediaFromSubreddit from './api/queryMediaFromSubreddit'
     import MediaGrid from './components/MediaGrid.svelte'
     import NavBar from './components/NavBar.svelte'
-    import { appState } from './data/appState'
+    import { appState } from './data/appState.svelte'
     import type media from './models/media'
 
     const searchParams: URLSearchParams = new URLSearchParams(
