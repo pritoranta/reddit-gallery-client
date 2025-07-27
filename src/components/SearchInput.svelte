@@ -1,6 +1,6 @@
 <script lang="ts">
     import querySubreddits from '../api/querySubreddits'
-    import { shouldSearchResultsShow } from '../data/shouldSearchResultsShow.svelte'
+    import { appState } from '../data/appState'
     import type subreddit from '../models/subreddit'
 
     let searchPhrase = $state('')
@@ -28,10 +28,10 @@
         type="text"
         placeholder="Search for subreddits..."
         bind:value={searchPhrase}
-        onfocusin={() => (shouldSearchResultsShow.current = true)}
+        onfocusin={() => (appState.shouldSearchResultsShow = true)}
         autocomplete="off"
     />
-    {#if shouldSearchResultsShow.current}
+    {#if appState.shouldSearchResultsShow}
         <ul id="search_results">
             {#each results as subreddit}
                 <li>

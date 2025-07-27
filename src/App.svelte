@@ -2,7 +2,7 @@
     import queryMediaFromSubreddit from './api/queryMediaFromSubreddit'
     import MediaGrid from './components/MediaGrid.svelte'
     import NavBar from './components/NavBar.svelte'
-    import { shouldSearchResultsShow } from './data/shouldSearchResultsShow.svelte'
+    import { appState } from './data/appState'
     import type media from './models/media'
 
     const searchParams: URLSearchParams = new URLSearchParams(
@@ -11,7 +11,7 @@
     const subredditId = searchParams?.get('sub') || 'MostBeautiful'
     let images: media[] = $state([])
     const closeSearchResults = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') shouldSearchResultsShow.current = false
+        if (e.key === 'Escape') appState.shouldSearchResultsShow = false
     }
 
     $effect(() => {
