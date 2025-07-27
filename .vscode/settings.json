@@ -3,6 +3,7 @@
     "editor.formatOnSave": true,
     "svelte.enable-ts-plugin": true,
     "svelte.plugin.svelte.compilerWarnings": {
+        "a11y_consider_explicit_label": "ignore",
         "a11y_missing_attribute": "ignore"
     },
     "[svelte]": {
