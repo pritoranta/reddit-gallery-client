@@ -8,7 +8,12 @@ export default async function queryMediaFromSubreddit(
         const response = await fetch(
             `https://api.reddit.com/r/${subredditId}/top.json?t=all`,
         )
-        if (response.status >= 400) return null
+        if (response.status >= 400) {
+            window.alert(
+                `Error fetching media from r/${subredditId}. Reddit API replied with status ${response.status} "${response.statusText}". Sorry!`,
+            )
+            return null
+        }
         const body: mediaQueryResult = await response.json()
         const postsWithMedia =
             body?.data?.children
@@ -57,7 +62,10 @@ export default async function queryMediaFromSubreddit(
                       is_over_18: post.over_18,
                   })),
         )
-    } catch {
+    } catch (e) {
+        window.alert(
+            `Error fetching media from r/${subredditId}. Read your browser's console for more details.\n\nThis is usually due to Reddit API blocking incoming requests for unknown reasons that are out of my control.\n\nYou can try disabling your VPN, or trying again later. Sorry!`,
+        )
         return null
     }
 }
