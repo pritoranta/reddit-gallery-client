@@ -6,6 +6,13 @@
     let searchPhrase = $state('')
     let isLoading = $state(false)
     let results: subreddit[] = $state([])
+    let debounceTimer: number
+    const debounceSearchPhrase = (s: string) => {
+        clearTimeout(debounceTimer)
+        debounceTimer = setTimeout(() => {
+            searchPhrase = s
+        }, 300)
+    }
 
     $effect(() => {
         isLoading = true
@@ -27,7 +34,8 @@
         id="search_input"
         type="text"
         placeholder="Search for subreddits..."
-        bind:value={searchPhrase}
+        onkeyup={(e) =>
+            debounceSearchPhrase((e.target as HTMLInputElement).value)}
         onfocusin={() => (appState.shouldSearchResultsShow = true)}
         autocomplete="off"
     />
