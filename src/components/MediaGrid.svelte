@@ -59,7 +59,7 @@
         id="dialogue"
         popover
         popovertarget="dialogue"
-        onclick={() => (appState.selectedImage = null)}
+        onkeyup={() => (appState.selectedImage = null)}
     >
         {#if appState.selectedImage?.is_video}
             <iframe
@@ -73,7 +73,13 @@
         {:else}
             <img class="content" src={appState.selectedImage?.url} />
         {/if}
-        <h2>{appState.selectedImage?.post_title}</h2>
+        <div id="dialogue_footer">
+            <a
+                href={`https://reddit.com${appState.selectedImage?.post_permalink}`}
+                target="_blank"><img id="reddit_logo" src="reddit.png" /></a
+            >
+            <h2>{appState.selectedImage?.post_title}</h2>
+        </div>
     </button>
 </ul>
 
@@ -102,5 +108,14 @@
     .content {
         height: 90%;
         max-width: 90%;
+    }
+    #dialogue_footer {
+        align-items: center;
+        display: flex;
+        gap: 20px;
+        height: 10%;
+    }
+    #reddit_logo {
+        height: 2rem;
     }
 </style>
