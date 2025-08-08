@@ -7,7 +7,14 @@
 <nav>
     <h1>{`r/${subredditId}`}</h1>
     <SearchInput />
-    <div></div>
+    <div id="links">
+        <a
+            href="https://github.com/pritoranta/reddit-image-client"
+            target="_blank"
+        >
+            <img class="logo" src="github.png" />
+        </a>
+    </div>
 </nav>
 
 <style>
@@ -17,8 +24,18 @@
         word-break: keep-all;
         word-wrap: break-all;
     }
-    div {
+    #links {
+        align-items: center;
+        display: flex;
+        justify-content: flex-end;
         width: 25%;
+    }
+    .logo {
+        height: 2.5rem;
+        will-change: filter;
+    }
+    .logo:hover {
+        filter: drop-shadow(0 0 1px white);
     }
     nav {
         align-items: center;
@@ -26,8 +43,8 @@
         justify-content: space-between;
         display: flex;
         flex-wrap: nowrap;
-        padding-left: 2vw;
-        padding-right: 2vw;
+        padding-left: 1rem;
+        padding-right: 1rem;
         width: 100%;
     }
 </style>
