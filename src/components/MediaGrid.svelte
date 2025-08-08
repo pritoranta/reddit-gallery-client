@@ -63,6 +63,7 @@
     >
         {#if appState.selectedImage?.is_video}
             <iframe
+                class="content"
                 src={appState.selectedImage.url}
                 height={appState.selectedImage.height}
                 width={appState.selectedImage.width}
@@ -70,7 +71,7 @@
                 sandbox="allow-scripts allow-same-origin"
             ></iframe>
         {:else}
-            <img src={appState.selectedImage?.url} />
+            <img class="content" src={appState.selectedImage?.url} />
         {/if}
         <h2>{appState.selectedImage?.post_title}</h2>
     </button>
@@ -97,5 +98,9 @@
         margin: 0;
         padding: 0;
         width: 100%;
+    }
+    .content {
+        height: 90%;
+        max-width: 90%;
     }
 </style>
