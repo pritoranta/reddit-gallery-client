@@ -5,7 +5,7 @@
 
     const { images }: { images: media[] } = $props()
     let innerWidth = $state(0)
-    const columns = $derived(Math.floor(innerWidth / 200)) // 200px set in CSS!
+    const columns = $derived(Math.floor(innerWidth / 204)) // close enough approximation of CSS
 
     const indexShouldBeLarge: boolean[] = $derived.by(() => {
         const indices: boolean[] = new Array(images.length).fill(false)
