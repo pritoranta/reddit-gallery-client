@@ -1,43 +1,78 @@
 <script lang="ts">
+    import { appState } from '../data/appState.svelte'
     import type media from '../models/media'
+    import MediaItem from './MediaItem.svelte'
 
     const { images }: { images: media[] } = $props()
-    let selectedImage: media | null = $state(null)
+    let innerWidth = $state(0)
+    const columns = $derived(Math.floor(innerWidth / 200)) // 200px set in CSS!
+
+    const indexShouldBeLarge: boolean[] = $derived.by(() => {
+        const indices: boolean[] = new Array(images.length).fill(false)
+        let currentRowIndex = 0
+        let rowReservations: boolean[] = new Array(columns).fill(false)
+        let nextRowReservations: boolean[] = new Array(columns).fill(false)
+        for (let i = 0; i < images.length; i++) {
+            // check if we have reached the next row
+            if (currentRowIndex >= columns) {
+                rowReservations = nextRowReservations
+                nextRowReservations = new Array(columns).fill(false)
+                currentRowIndex = 0
+            }
+            // check if current column is reserved
+            if (rowReservations[currentRowIndex]) {
+                i--
+                currentRowIndex++
+                continue
+            }
+
+            // check if this is the last column of row, or next one is reserved
+            if (
+                currentRowIndex + 1 === columns ||
+                rowReservations[currentRowIndex + 1]
+            ) {
+                currentRowIndex++
+            }
+            // check rng
+            else if (Math.random() < 0.8) {
+                currentRowIndex++
+            }
+            // congratulations you are deemed big
+            else {
+                nextRowReservations[currentRowIndex] = true
+                nextRowReservations[currentRowIndex + 1] = true
+                currentRowIndex += 2
+                indices[i] = true
+            }
+        }
+        return indices
+    })
 </script>
 
+<svelte:window bind:innerWidth />
+
 <ul id="media_grid">
-    {#each images as i}
-        <li>
-            <button
-                onclick={() => (selectedImage = i)}
-                popovertarget="dialogue"
-            >
-                {#if i.is_video}
-                    <img src={i.thumbnail_url} loading="lazy" />
-                {:else}
-                    <img src={i.url} loading="lazy" />
-                {/if}
-            </button>
-        </li>
+    {#each images as image, index}
+        <MediaItem {image} shouldBeLarge={indexShouldBeLarge[index]} />
     {/each}
     <button
         id="dialogue"
         popover
         popovertarget="dialogue"
-        onclick={() => (selectedImage = null)}
+        onclick={() => (appState.selectedImage = null)}
     >
-        {#if selectedImage?.is_video}
+        {#if appState.selectedImage?.is_video}
             <iframe
-                src={selectedImage.url}
-                height={selectedImage.height}
-                width={selectedImage.width}
+                src={appState.selectedImage.url}
+                height={appState.selectedImage.height}
+                width={appState.selectedImage.width}
                 loading="eager"
                 sandbox="allow-scripts allow-same-origin"
             ></iframe>
         {:else}
-            <img src={selectedImage?.url} />
+            <img src={appState.selectedImage?.url} />
         {/if}
-        <h2>{selectedImage?.post_title}</h2>
+        <h2>{appState.selectedImage?.post_title}</h2>
     </button>
 </ul>
 
@@ -48,23 +83,6 @@
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         padding: 0;
         margin: 0;
-        width: 100%;
-    }
-    li {
-        aspect-ratio: 1;
-        display: block;
-        grid-column-end: span 1;
-        grid-row-end: span 1;
-    }
-    li button {
-        cursor: pointer;
-        display: contents;
-    }
-    li button img {
-        box-sizing: border-box;
-        display: block;
-        height: 100%;
-        object-fit: cover;
         width: 100%;
     }
     #dialogue:popover-open {
