@@ -1,13 +1,15 @@
 import type media from '../models/media'
+import type mediaList from '../models/mediaList'
 import type mediaQueryResult from './mediaQueryResult'
 
 export default async function queryMediaFromSubreddit(
     subredditId: string,
-): Promise<media[] | null> {
+    pageId?: string,
+): Promise<mediaList | null> {
     try {
-        const response = await fetch(
-            `https://api.reddit.com/r/${subredditId}/top.json?t=all`,
-        )
+        let url = `https://api.reddit.com/r/${subredditId}/top.json?t=all`
+        if (pageId) url += `&after=${pageId}`
+        const response = await fetch(url)
         if (response.status >= 400) {
             window.alert(
                 `Error fetching media from r/${subredditId}. Reddit API replied with status ${response.status} "${response.statusText}". Sorry!`,
@@ -26,7 +28,7 @@ export default async function queryMediaFromSubreddit(
                             post.url.includes('imgur.com') &&
                             post.preview?.reddit_video_preview),
                 ) ?? []
-        return postsWithMedia.flatMap((post) =>
+        const posts: media[] = postsWithMedia.flatMap((post) =>
             post.secure_media?.oembed?.type === 'video'
                 ? {
                       is_video: true,
@@ -62,6 +64,10 @@ export default async function queryMediaFromSubreddit(
                       is_over_18: post.over_18,
                   })),
         )
+        return {
+            media: posts,
+            next_page_id: body?.data?.after,
+        }
     } catch (e) {
         window.alert(
             `Error fetching media from r/${subredditId}. Read your browser's console for more details.\n\nThis is usually due to Reddit API blocking incoming requests for unknown reasons that are out of my control.\n\nYou can try disabling your VPN, or trying again later. Sorry!`,

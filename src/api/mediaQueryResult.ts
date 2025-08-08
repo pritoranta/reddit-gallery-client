@@ -1,5 +1,6 @@
 export default interface mediaQueryResult {
     data: {
+        after?: string
         children: {
             data: {
                 preview?: {

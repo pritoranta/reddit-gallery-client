@@ -3,31 +3,37 @@
     import MediaGrid from './components/MediaGrid.svelte'
     import NavBar from './components/NavBar.svelte'
     import { appState } from './data/appState.svelte'
-    import type media from './models/media'
 
-    const searchParams: URLSearchParams = new URLSearchParams(
-        window.location.search,
-    )
-    const subredditId = searchParams?.get('sub') || 'MostBeautiful'
-    let images: media[] = $state([])
     const closeSearchResults = (e: KeyboardEvent) => {
         if (e.key === 'Escape') appState.shouldSearchResultsShow = false
     }
 
+    // initial images
     $effect(() => {
-        queryMediaFromSubreddit(subredditId)
-            .then((results) => {
-                images = results ?? []
+        queryMediaFromSubreddit(appState.subredditId)
+            .then((result) => {
+                appState.nextPageId = result?.next_page_id
+                appState.images = result?.media ?? []
             })
             .catch(() => {
-                images = []
+                appState.images = []
             })
+    })
+    // more images
+    $effect(() => {
+        if (!appState.shouldLoadMoreImages || !appState.nextPageId) return
+        queryMediaFromSubreddit(appState.subredditId, appState.nextPageId).then(
+            (result) => {
+                appState.nextPageId = result?.next_page_id
+                appState.images = [...appState.images, ...(result?.media ?? [])]
+            },
+        )
     })
 </script>
 
 <main>
-    <NavBar {subredditId} />
-    <MediaGrid {images} />
+    <NavBar />
+    <MediaGrid />
 </main>
 
 <svelte:window on:keydown={closeSearchResults} />

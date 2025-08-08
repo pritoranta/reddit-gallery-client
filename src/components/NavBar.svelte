@@ -1,11 +1,10 @@
 <script lang="ts">
+    import { appState } from '../data/appState.svelte'
     import SearchInput from './SearchInput.svelte'
-
-    const { subredditId }: { subredditId: string } = $props()
 </script>
 
 <nav>
-    <h1>{`r/${subredditId}`}</h1>
+    <h1>{`r/${appState.subredditId}`}</h1>
     <SearchInput />
     <div id="links">
         <a

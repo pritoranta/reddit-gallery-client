@@ -1,18 +1,17 @@
 <script lang="ts">
     import { appState } from '../data/appState.svelte'
-    import type media from '../models/media'
+    import ImageLoader from './ImageLoader.svelte'
     import MediaItem from './MediaItem.svelte'
 
-    const { images }: { images: media[] } = $props()
     let innerWidth = $state(0)
     const columns = $derived(Math.floor(innerWidth / 204)) // close enough approximation of CSS
 
     const indexShouldBeLarge: boolean[] = $derived.by(() => {
-        const indices: boolean[] = new Array(images.length).fill(false)
+        const indices: boolean[] = new Array(appState.images.length).fill(false)
         let currentRowIndex = 0
         let rowReservations: boolean[] = new Array(columns).fill(false)
         let nextRowReservations: boolean[] = new Array(columns).fill(false)
-        for (let i = 0; i < images.length; i++) {
+        for (let i = 0; i < appState.images.length; i++) {
             // check if we have reached the next row
             if (currentRowIndex >= columns) {
                 rowReservations = nextRowReservations
@@ -52,9 +51,10 @@
 <svelte:window bind:innerWidth />
 
 <ul id="media_grid">
-    {#each images as image, index}
+    {#each appState.images as image, index}
         <MediaItem {image} shouldBeLarge={indexShouldBeLarge[index]} />
     {/each}
+    <ImageLoader />
     <button
         id="dialogue"
         popover
