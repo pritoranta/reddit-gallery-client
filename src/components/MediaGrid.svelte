@@ -5,46 +5,37 @@
 
     let innerWidth = $state(0)
     const columns = $derived(Math.floor(innerWidth / 204)) // close enough approximation of CSS
-
     const indexShouldBeLarge: boolean[] = $derived.by(() => {
-        const indices: boolean[] = new Array(appState.images.length).fill(false)
-        let currentRowIndex = 0
-        let rowReservations: boolean[] = new Array(columns).fill(false)
-        let nextRowReservations: boolean[] = new Array(columns).fill(false)
-        for (let i = 0; i < appState.images.length; i++) {
-            // check if we have reached the next row
-            if (currentRowIndex >= columns) {
-                rowReservations = nextRowReservations
-                nextRowReservations = new Array(columns).fill(false)
-                currentRowIndex = 0
+        let x = 0
+        let rowReservations: boolean[] = new Array(columns)
+        let nextRowReservations: boolean[] = new Array(columns)
+        return appState.images.map(() => {
+            // cycle x to point to next unreserved span
+            while (rowReservations[x]) {
+                if (x + 1 < columns) {
+                    x++
+                } else {
+                    rowReservations = nextRowReservations
+                    nextRowReservations = new Array(columns)
+                    x = 0
+                }
             }
-            // check if current column is reserved
-            if (rowReservations[currentRowIndex]) {
-                i--
-                currentRowIndex++
-                continue
-            }
-
-            // check if this is the last column of row, or next one is reserved
+            // determine image size and reserve span
             if (
-                currentRowIndex + 1 === columns ||
-                rowReservations[currentRowIndex + 1]
+                x + 1 < columns &&
+                !rowReservations[x + 1] &&
+                Math.random() < 0.2
             ) {
-                currentRowIndex++
+                rowReservations[x] = true
+                rowReservations[x + 1] = true
+                nextRowReservations[x] = true
+                nextRowReservations[x + 1] = true
+                return true
+            } else {
+                rowReservations[x] = true
+                return false
             }
-            // check rng
-            else if (Math.random() < 0.8) {
-                currentRowIndex++
-            }
-            // congratulations you are deemed big
-            else {
-                nextRowReservations[currentRowIndex] = true
-                nextRowReservations[currentRowIndex + 1] = true
-                currentRowIndex += 2
-                indices[i] = true
-            }
-        }
-        return indices
+        })
     })
 </script>
 
