@@ -9,8 +9,8 @@ const caches: {
 /**
  * memoized func for calculating large image indices
  * @param columns column count
- * @param i index of last image
- * @returns indices; true = large image, false = small image
+ * @param i last index to calculate
+ * @returns indices; true: large image, false: small image
  */
 export const getLargeImageIndices = (columns: number, i: number): boolean[] => {
     const cache = (caches[columns] ??= {
