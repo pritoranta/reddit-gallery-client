@@ -19,6 +19,7 @@
         font-size: min(3vw, 1.5rem);
         word-break: keep-all;
         word-wrap: break-all;
+        margin-block: 0;
     }
     .logo {
         height: 2.5rem;
