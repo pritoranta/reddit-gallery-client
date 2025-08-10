@@ -1,7 +1,10 @@
-let x = 0
-let rowReservations: boolean[] = []
-let nextRowReservations: boolean[] = []
-const cache: boolean[] = []
+// caches for each column count
+const caches: {
+    indices: boolean[]
+    x: number
+    rowReservations: boolean[]
+    nextRowReservations: boolean[]
+}[] = []
 
 /**
  * memoized func for calculating large image indices
@@ -10,34 +13,44 @@ const cache: boolean[] = []
  * @returns indices; true = large image, false = small image
  */
 export const getLargeImageIndices = (columns: number, i: number): boolean[] => {
+    const cache = (caches[columns] ??= {
+        indices: [],
+        x: 0,
+        rowReservations: [],
+        nextRowReservations: [],
+    })
     // cache hit
-    if (cache[i] !== undefined) {
-        return cache.slice()
+    if (cache.indices[i] !== undefined) {
+        return cache.indices
     }
     // preceding i is also missing
-    if (i > 0 && cache[i - 1] === undefined) {
+    if (i > 0 && cache.indices[i - 1] === undefined) {
         getLargeImageIndices(columns, i - 1) // caches result
     }
     // cycle x to point of next unreserved span
-    while (rowReservations[x]) {
-        if (x + 1 < columns) {
-            x++
+    while (cache.rowReservations[cache.x]) {
+        if (cache.x + 1 < columns) {
+            cache.x++
         } else {
-            rowReservations = nextRowReservations
-            nextRowReservations = new Array(columns)
-            x = 0
+            cache.rowReservations = cache.nextRowReservations
+            cache.nextRowReservations = new Array(columns)
+            cache.x = 0
         }
     }
     // determine image size and reserve span
-    if (x + 1 < columns && !rowReservations[x + 1] && Math.random() < 0.2) {
-        rowReservations[x] = true
-        rowReservations[x + 1] = true
-        nextRowReservations[x] = true
-        nextRowReservations[x + 1] = true
-        cache.push(true)
+    if (
+        cache.x + 1 < columns &&
+        !cache.rowReservations[cache.x + 1] &&
+        Math.random() < 0.2
+    ) {
+        cache.rowReservations[cache.x] = true
+        cache.rowReservations[cache.x + 1] = true
+        cache.nextRowReservations[cache.x] = true
+        cache.nextRowReservations[cache.x + 1] = true
+        cache.indices.push(true)
     } else {
-        rowReservations[x] = true
-        cache.push(false)
+        cache.rowReservations[cache.x] = true
+        cache.indices.push(false)
     }
-    return cache
+    return cache.indices
 }
