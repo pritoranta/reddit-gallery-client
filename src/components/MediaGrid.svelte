@@ -1,42 +1,14 @@
 <script lang="ts">
     import { appState } from '../data/appState.svelte'
+    import { getLargeImageIndices } from '../utils/getLargeImageIndices'
     import ImageLoader from './ImageLoader.svelte'
     import MediaItem from './MediaItem.svelte'
 
     let innerWidth = $state(0)
     const columns = $derived(Math.floor(innerWidth / 204)) // close enough approximation of CSS
-    const indexShouldBeLarge: boolean[] = $derived.by(() => {
-        let x = 0
-        let rowReservations: boolean[] = new Array(columns)
-        let nextRowReservations: boolean[] = new Array(columns)
-        return appState.images.map(() => {
-            // cycle x to point to next unreserved span
-            while (rowReservations[x]) {
-                if (x + 1 < columns) {
-                    x++
-                } else {
-                    rowReservations = nextRowReservations
-                    nextRowReservations = new Array(columns)
-                    x = 0
-                }
-            }
-            // determine image size and reserve span
-            if (
-                x + 1 < columns &&
-                !rowReservations[x + 1] &&
-                Math.random() < 0.2
-            ) {
-                rowReservations[x] = true
-                rowReservations[x + 1] = true
-                nextRowReservations[x] = true
-                nextRowReservations[x + 1] = true
-                return true
-            } else {
-                rowReservations[x] = true
-                return false
-            }
-        })
-    })
+    const indexShouldBeLarge: boolean[] = $derived(
+        getLargeImageIndices(columns, appState.images.length),
+    )
 </script>
 
 <svelte:window bind:innerWidth />
