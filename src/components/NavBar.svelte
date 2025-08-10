@@ -8,7 +8,7 @@
     <SearchInput />
     <div id="links">
         <a
-            href="https://github.com/pritoranta/reddit-image-client"
+            href="https://github.com/pritoranta/reddit-gallery-client"
             target="_blank"
         >
             <img class="logo" src="github.png" />
