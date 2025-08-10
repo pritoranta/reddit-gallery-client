@@ -4,7 +4,6 @@
     import type subreddit from '../models/subreddit'
 
     let searchPhrase = $state('')
-    let isLoading = $state(false)
     let results: subreddit[] = $state([])
     let debounceTimer: number
     const debounceSearchPhrase = (s: string) => {
@@ -15,16 +14,12 @@
     }
 
     $effect(() => {
-        isLoading = true
         querySubreddits(searchPhrase) // this state read triggers the effect rune
             .then((subreddits) => {
                 results = subreddits ?? []
             })
             .catch(() => {
                 results = []
-            })
-            .finally(() => {
-                isLoading = false
             })
     })
 </script>
@@ -33,7 +28,7 @@
     <input
         id="search_input"
         type="text"
-        placeholder="Search for subreddits..."
+        placeholder="r/art, r/pics..."
         onkeyup={(e) =>
             debounceSearchPhrase((e.target as HTMLInputElement).value)}
         onfocusin={() => (appState.shouldSearchResultsShow = true)}
@@ -44,7 +39,7 @@
             {#each results as subreddit}
                 <li>
                     <a href={'?sub=' + subreddit.id}>
-                        {subreddit.id}
+                        {'r/' + subreddit.id}
                     </a>
                 </li>
             {/each}
@@ -59,12 +54,15 @@
         width: 50%;
     }
     #search_input {
+        border-radius: 10px;
         padding: 5px;
         width: 100%;
+        font-size: 1.1rem;
     }
     #search_results {
         background-color: var(--background-color);
         border: 0;
+        border-radius: 10px;
         display: block;
         margin: 0;
         max-height: 20rem;
