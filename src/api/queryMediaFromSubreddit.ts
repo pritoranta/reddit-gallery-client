@@ -70,7 +70,7 @@ export default async function queryMediaFromSubreddit(
         }
     } catch (e) {
         window.alert(
-            `Error fetching media from r/${subredditId}. Read your browser's console for more details.\n\nThis might be caused by browser settings that block third-party websites' content, or an overly eager adblocker. Please try again later, or try whitelisting this website in your browser's settings.`,
+            `Error fetching media from r/${subredditId}. This might be caused by browser settings that block third-party trackers, or by using a VPN.\n\nReddit are a known tracker, so some browsers block cross-origin requests to Reddit. Reddit also usually blocks VPNs so they can track users better.\n\nYou can try whitelisting this page in your browser's settings, disabling your VPN, or try again later.`,
         )
         return null
     }
