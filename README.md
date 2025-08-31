@@ -5,3 +5,5 @@ A small web app for browsing [Reddit](https://www.reddit.com) images in a styliz
 Inspired by the image grid of [Cara](https://cara.app/)!
 
 Powered by [Svelte](https://svelte.dev/) + [Vite](https://vite.dev/) ❤️
+
+Hosted at: https://pritoranta.net/reddit-gallery-client/
