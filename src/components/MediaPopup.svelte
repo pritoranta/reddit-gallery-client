@@ -20,13 +20,13 @@
     {:else}
         <img class="content" src={appState.selectedImage?.url} />
     {/if}
-    <div id="dialogue_footer">
-        <a
-            href={`https://reddit.com${appState.selectedImage?.post_permalink}`}
-            target="_blank"><img id="reddit_logo" src="reddit.png" /></a
-        >
-        <h2>{appState.selectedImage?.post_title}</h2>
-    </div>
+    <a
+        id="dialogue_footer"
+        href={`https://reddit.com${appState.selectedImage?.post_permalink}`}
+        target="_blank"
+        ><img id="reddit_logo" src="reddit.png" />
+        <h2>{appState.selectedImage?.post_title}</h2></a
+    >
 </button>
 
 <style>
@@ -49,9 +49,16 @@
     }
     #dialogue_footer {
         align-items: center;
+        background-color: var(--background-color);
+        border-color: var(--color);
+        border-width: 1px;
+        border-radius: 20px;
+        border-style: solid;
+        color: var(--color);
         display: flex;
         gap: 20px;
-        height: 10%;
+        margin: 5px;
+        padding: 10px;
     }
     #reddit_logo {
         height: 2rem;
