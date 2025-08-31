@@ -1,6 +1,7 @@
 <script lang="ts">
     import queryMediaFromSubreddit from './api/queryMediaFromSubreddit'
     import MediaGrid from './components/MediaGrid.svelte'
+    import MediaPopup from './components/MediaPopup.svelte'
     import NavBar from './components/NavBar.svelte'
     import { appState } from './data/appState.svelte'
 
@@ -34,6 +35,7 @@
 <main>
     <NavBar />
     <MediaGrid />
+    <MediaPopup />
 </main>
 
 <svelte:window on:keydown={closeSearchResults} />
