@@ -29,15 +29,25 @@ export default async function queryMediaFromSubreddit(
                             post.preview?.reddit_video_preview),
                 ) ?? []
         const posts: media[] = postsWithMedia.flatMap((post) =>
-            post.secure_media?.oembed?.type === 'video'
+            post.secure_media?.oembed?.type === 'video' ||
+            !!post.secure_media?.reddit_video
                 ? {
                       is_video: true,
                       post_permalink: post.permalink,
                       post_subreddit_id: post.subreddit,
                       post_title: post.title,
-                      url: post.secure_media_embed?.media_domain_url ?? '',
-                      height: post.secure_media_embed?.height ?? 0,
-                      width: post.secure_media_embed?.width ?? 0,
+                      url:
+                          post.secure_media_embed?.media_domain_url ??
+                          post.secure_media?.reddit_video?.fallback_url ??
+                          '',
+                      height:
+                          post.secure_media_embed?.height ??
+                          post.secure_media?.reddit_video?.height ??
+                          0,
+                      width:
+                          post.secure_media_embed?.width ??
+                          post.secure_media?.reddit_video?.width ??
+                          0,
                       thumbnail_url: post.thumbnail,
                       is_original_content: post.is_original_content,
                       is_over_18: post.over_18,

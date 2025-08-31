@@ -27,6 +27,11 @@ export default interface mediaQueryResult {
                         thumbnail_url?: string
                         type: string
                     }
+                    reddit_video?: {
+                        fallback_url: string
+                        height: number
+                        width: number
+                    }
                 }
                 secure_media_embed?: {
                     media_domain_url: string
