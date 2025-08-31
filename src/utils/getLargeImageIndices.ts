@@ -4,6 +4,7 @@ const caches: {
     x: number
     rowReservations: boolean[]
     nextRowReservations: boolean[]
+    smallImagesInSequence: number
 }[] = []
 
 /**
@@ -18,6 +19,7 @@ export const getLargeImageIndices = (columns: number, i: number): boolean[] => {
         x: 0,
         rowReservations: [],
         nextRowReservations: [],
+        smallImagesInSequence: 0,
     })
     // cache hit
     if (cache.indices[i] !== undefined) {
@@ -41,15 +43,17 @@ export const getLargeImageIndices = (columns: number, i: number): boolean[] => {
     if (
         cache.x + 1 < columns &&
         !cache.rowReservations[cache.x + 1] &&
-        Math.random() < 0.2
+        (cache.smallImagesInSequence > 4 || Math.random() < 0.2)
     ) {
         cache.rowReservations[cache.x] = true
         cache.rowReservations[cache.x + 1] = true
         cache.nextRowReservations[cache.x] = true
         cache.nextRowReservations[cache.x + 1] = true
+        cache.smallImagesInSequence = 0
         cache.indices.push(true)
     } else {
         cache.rowReservations[cache.x] = true
+        cache.smallImagesInSequence++
         cache.indices.push(false)
     }
     return cache.indices
