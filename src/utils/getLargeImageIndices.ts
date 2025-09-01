@@ -43,7 +43,7 @@ export const getLargeImageIndices = (columns: number, i: number): boolean[] => {
     if (
         cache.x + 1 < columns &&
         !cache.rowReservations[cache.x + 1] &&
-        (cache.smallImagesInSequence > 4 || Math.random() < 0.2)
+        (cache.smallImagesInSequence > 3 || Math.random() < 0.2)
     ) {
         cache.rowReservations[cache.x] = true
         cache.rowReservations[cache.x + 1] = true
