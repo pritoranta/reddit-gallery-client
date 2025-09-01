@@ -50,8 +50,8 @@
 <style>
     search {
         margin: 10px;
-        max-width: 25rem;
-        width: 50%;
+        max-width: 30rem;
+        width: 100%;
     }
     #search_input {
         border-radius: 10px;
@@ -66,7 +66,7 @@
         display: block;
         margin: 0;
         max-height: 20rem;
-        max-width: calc(25rem + 14px);
+        max-width: calc(30rem + 14px);
         overflow-y: auto;
         padding-left: 0;
         position: absolute;
