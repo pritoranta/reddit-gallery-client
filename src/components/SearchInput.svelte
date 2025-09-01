@@ -55,7 +55,7 @@
     }
     #search_input {
         border-radius: 10px;
-        padding: 5px;
+        padding: 10px;
         width: 100%;
         font-size: 1.1rem;
     }
