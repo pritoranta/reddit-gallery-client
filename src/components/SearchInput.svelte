@@ -70,7 +70,7 @@
         overflow-y: auto;
         padding-left: 0;
         position: absolute;
-        width: 100%;
+        width: calc(60% - 30px);
         z-index: 1;
     }
     li a {
