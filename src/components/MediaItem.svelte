@@ -27,6 +27,8 @@
 <style>
     li {
         aspect-ratio: 1;
+        animation: 0.5s fade-in normal;
+        backdrop-filter: invert(15%);
         display: block;
     }
     li.small {
@@ -47,5 +49,13 @@
         height: 100%;
         object-fit: cover;
         width: 100%;
+    }
+    @keyframes fade-in {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
     }
 </style>
