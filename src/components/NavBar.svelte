@@ -4,7 +4,12 @@
 </script>
 
 <nav>
-    <h1>{`r/${appState.subredditId}`}</h1>
+    <h1>
+        <a
+            href={`https://reddit.com/r/${appState.subredditId}/top/?t=all`}
+            target="_blank">{`r/${appState.subredditId}`}</a
+        >
+    </h1>
     <div id="search">
         <SearchInput />
     </div>
@@ -26,6 +31,9 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         width: 20%;
+    }
+    h1 a {
+        color: var(--color);
     }
     #search {
         display: flex;
