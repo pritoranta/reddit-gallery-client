@@ -1,5 +1,5 @@
 <script lang="ts">
-    import queryMediaFromSubreddit from './api/queryMediaFromSubreddit'
+    import queryMedia from './api/queryMedia'
     import MediaGrid from './components/MediaGrid.svelte'
     import MediaPopup from './components/MediaPopup.svelte'
     import NavBar from './components/NavBar.svelte'
@@ -11,9 +11,9 @@
 
     // initial images
     $effect(() => {
-        queryMediaFromSubreddit(appState.subredditId)
+        queryMedia(appState.subredditId)
             .then((result) => {
-                appState.nextPageId = result?.next_page_id
+                appState.nextPageId = result?.nextPageId
                 appState.images = result?.media ?? []
             })
             .catch(() => {
@@ -23,12 +23,10 @@
     // more images
     $effect(() => {
         if (!appState.shouldLoadMoreImages || !appState.nextPageId) return
-        queryMediaFromSubreddit(appState.subredditId, appState.nextPageId).then(
-            (result) => {
-                appState.nextPageId = result?.next_page_id
-                appState.images = [...appState.images, ...(result?.media ?? [])]
-            },
-        )
+        queryMedia(appState.subredditId, appState.nextPageId).then((result) => {
+            appState.nextPageId = result?.nextPageId
+            appState.images = [...appState.images, ...(result?.media ?? [])]
+        })
     })
 </script>
 

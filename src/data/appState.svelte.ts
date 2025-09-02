@@ -1,4 +1,4 @@
-import type media from '../models/media'
+import type media from '../api/models/media'
 
 interface appStateType {
     images: media[]

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { appState } from '../data/appState.svelte'
-    import type media from '../models/media'
+    import type media from '../api/models/media'
 
     const {
         image,
@@ -16,8 +16,8 @@
         onclick={() => (appState.selectedImage = image)}
         popovertarget="dialogue"
     >
-        {#if image.is_video}
-            <img src={image.thumbnail_url} loading="lazy" />
+        {#if image.isVideo}
+            <img src={image.thumbnailUrl} loading="lazy" />
         {:else}
             <img src={image.url} loading="lazy" />
         {/if}

@@ -8,7 +8,7 @@
     popovertarget="dialogue"
     onkeyup={() => (appState.selectedImage = null)}
 >
-    {#if appState.selectedImage?.is_video}
+    {#if appState.selectedImage?.isVideo}
         <iframe
             class="content"
             src={appState.selectedImage.url}
@@ -22,10 +22,10 @@
     {/if}
     <a
         id="dialogue_footer"
-        href={`https://reddit.com${appState.selectedImage?.post_permalink}`}
+        href={`https://reddit.com${appState.selectedImage?.postPermalink}`}
         target="_blank"
         ><img id="reddit_logo" src="reddit.png" />
-        <h2>{appState.selectedImage?.post_title}</h2></a
+        <h2>{appState.selectedImage?.postTitle}</h2></a
     >
 </button>
 
