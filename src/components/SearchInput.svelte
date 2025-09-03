@@ -32,6 +32,9 @@
         onkeyup={(e) =>
             debounceSearchPhrase((e.target as HTMLInputElement).value)}
         onfocusin={() => (appState.shouldSearchResultsShow = true)}
+        onfocusout={(e) => {
+            if (!e.relatedTarget) appState.shouldSearchResultsShow = false
+        }}
         autocomplete="off"
     />
     {#if appState.shouldSearchResultsShow}
