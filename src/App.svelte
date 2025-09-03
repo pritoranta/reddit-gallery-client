@@ -3,6 +3,7 @@
     import MediaGrid from './components/MediaGrid.svelte'
     import MediaPopup from './components/MediaPopup.svelte'
     import NavBar from './components/NavBar.svelte'
+    import ScrollToTopButton from './components/ScrollToTopButton.svelte'
     import { appState } from './data/appState.svelte'
 
     const closeSearchResults = (e: KeyboardEvent) => {
@@ -34,6 +35,7 @@
     <NavBar />
     <MediaGrid />
     <MediaPopup />
+    <ScrollToTopButton />
 </main>
 
 <svelte:window on:keydown={closeSearchResults} />
