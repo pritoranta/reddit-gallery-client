@@ -28,7 +28,7 @@
     <input
         id="search_input"
         type="text"
-        placeholder="r/art, r/pics..."
+        placeholder="r/art, r/photo..."
         onkeyup={(e) =>
             debounceSearchPhrase((e.target as HTMLInputElement).value)}
         onfocusin={() => (appState.shouldSearchResultsShow = true)}
