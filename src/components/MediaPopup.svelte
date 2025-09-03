@@ -44,7 +44,7 @@
         width: 100%;
     }
     .content {
-        height: 90%;
+        max-height: 90%;
         max-width: 90%;
     }
     #dialogue_footer {
