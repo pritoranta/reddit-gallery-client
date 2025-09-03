@@ -5,7 +5,7 @@
     import MediaItem from './MediaItem.svelte'
 
     let innerWidth = $state(0)
-    const columns = $derived(Math.floor(innerWidth / 204)) // close enough approximation of CSS
+    const columns = $derived(Math.floor((innerWidth + 4) / 184))
     const indexShouldBeLarge: boolean[] = $derived(
         getLargeImageIndices(columns, appState.images.length),
     )
@@ -24,7 +24,7 @@
     #media_grid {
         display: grid;
         gap: 4px;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         padding: 0;
         margin: 0;
         width: 100%;
