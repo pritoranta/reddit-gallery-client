@@ -2,7 +2,7 @@
     --color: #ffffff;
     --background-color: #1a1a1a;
 
-    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: Avenir, Helvetica, Arial, sans-serif, system-ui;
     line-height: 1.5;
     font-weight: 400;
     color-scheme: light dark;
