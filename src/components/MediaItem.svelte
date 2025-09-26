@@ -9,6 +9,9 @@
         image: media
         shouldBeLarge: boolean
     } = $props()
+    const src = image.isVideo ? image.thumbnailUrl : image.url
+    let ready = $state(false)
+    const onload = () => (ready = true)
 </script>
 
 <li class={shouldBeLarge ? 'large' : 'small'}>
@@ -16,18 +19,14 @@
         onclick={() => (appState.selectedImage = image)}
         popovertarget="dialogue"
     >
-        {#if image.isVideo}
-            <img src={image.thumbnailUrl} loading="lazy" />
-        {:else}
-            <img src={image.url} loading="lazy" />
-        {/if}
+        <img {src} loading="lazy" {onload} class={ready ? 'show' : 'hidden'} />
     </button>
 </li>
 
 <style>
     li {
         aspect-ratio: 1;
-        animation: 0.5s fade-in normal;
+        animation: 2s fade-in normal;
         backdrop-filter: invert(15%);
         display: block;
     }
@@ -49,6 +48,13 @@
         height: 100%;
         object-fit: cover;
         width: 100%;
+    }
+    .show {
+        animation: 0.5s fade-in normal;
+        visibility: visible;
+    }
+    .hidden {
+        visibility: hidden;
     }
     @keyframes fade-in {
         0% {
