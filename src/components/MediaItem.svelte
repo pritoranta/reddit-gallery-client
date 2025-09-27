@@ -38,11 +38,11 @@
         grid-column-end: span 2;
         grid-row-end: span 2;
     }
-    li button {
+    button {
         cursor: pointer;
         display: contents;
     }
-    li button img {
+    img {
         box-sizing: border-box;
         display: block;
         height: 100%;
