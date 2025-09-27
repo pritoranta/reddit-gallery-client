@@ -11,7 +11,6 @@
     } = $props()
     const src = image.isVideo ? image.thumbnailUrl : image.url
     let ready = $state(false)
-    const onload = () => (ready = true)
 </script>
 
 <li class={shouldBeLarge ? 'large' : 'small'}>
@@ -19,7 +18,13 @@
         onclick={() => (appState.selectedImage = image)}
         popovertarget="dialogue"
     >
-        <img {src} loading="lazy" {onload} class={ready ? 'show' : 'hidden'} />
+        <img
+            {src}
+            loading="lazy"
+            onload={() => (ready = true)}
+            onerror={() => (ready = true)}
+            class={ready ? 'show' : 'hidden'}
+        />
     </button>
 </li>
 
